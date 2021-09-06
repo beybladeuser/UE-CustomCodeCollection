@@ -5,9 +5,8 @@
 	- [AProjectileBase](#aprojectilebase)
 		- [Setupt](#setupt)
 		- [Projectile options](#projectile-options)
-	- [UWeaponHolderComponent](#uweaponholdercomponent)
 	- [AWeaponBase](#aweaponbase)
-	- [AWeaponAgregateBase](#aweaponagregatebase)
+	- [UWeaponHolderComponent](#uweaponholdercomponent)
 - [Tips](#tips)
 
 # Inicial Setup
@@ -186,6 +185,20 @@ This is what the objects of the class AGunBase use to shoot and there exists two
   - this is the Damage info that will be used when the projectile explodes near a ADamageableCharacter
   - Has the same attributes as the Hit Damage Component
 
+## AWeaponBase
+
+This is the basic class of the weapons, this has the following child classes:
+
+1. **AGunBase:** the base of all weapons that spawn projectiles
+   1. **ASemiAutoGunBase:** semi auto fire
+   2. **AFullyAutoGunBase:** full auto fire
+   3. **AChargeGunBase:** charge fire
+   4. **ABurstGunBase:** burst fire
+2. **AMeleeBase:** to be implementaded
+3. **AWeaponAgregateBase:** a agregate of several AWeaponBase each with its own id, used for weapons with alternate fire modes
+   1. **AFireModeToggleAgregateBase:** same as AWeaponAgregateBase but when you use the alternate fire it will scroll through the diferent AWeaponBase
+
+
 ## UWeaponHolderComponent
 - **Setup:**
   
@@ -242,45 +255,7 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 	or
 	
 	![UWeaponHolderComponent_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/UWeaponHolderComponent_Setup_2.png)
+
   3. 
-
-## AWeaponBase
-This is a simple weapon class that can only perform one action this is achieved by the use of the following functions:
-
-```c++
-public:
-	UFUNCTION(BlueprintCallable)
-	virtual void StartUsingWeapon();
-	UFUNCTION(BlueprintCallable)
-	virtual void StopUsingWeapon();
-```
-These should be used when the player starts pressing the shoot input and stop pressing the input respectfully like so:
-```c++
-void ADog::ShootActiveWeapon()
-{
-	if (Weapons.Num() && bIsAiming)
-	{
-		Weapons[GetActiveWeaponIndex()]->StartUsingWeapon();
-	}
-}
-
-void ADog::StopShootActiveWeapon()
-{
-	if (Weapons.Num() && bIsAiming)
-	{
-		Weapons[GetActiveWeaponIndex()]->StopUsingWeapon();
-	}
-}
-
-void ADog::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	InputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, this, &ADog::ShootActiveWeapon);
-	InputComponent->BindAction("Shoot", EInputEvent::IE_Released, this, &ADog::StopShootActiveWeapon);
-}
-```
-
-## AWeaponAgregateBase
 
 # Tips
