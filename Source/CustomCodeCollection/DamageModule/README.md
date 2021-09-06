@@ -125,19 +125,19 @@ This is what the objects of the class AGunBase use to shoot and there exists two
   - PBP == Projectile BluePrint
   - Set The Mesh:
 
-	![ANonHitScanProjectileBase_Setup_3]()
+	![ANonHitScanProjectileBase_Setup_3](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_3.png)
 
   - Set the atributes for the UProjectileMovementComponent:
 
-	![ANonHitScanProjectileBase_Setup_4]()
+	![ANonHitScanProjectileBase_Setup_4](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_4.png)
 
   - Set the atributes for the URotatingMovementComponent:
 
-	![ANonHitScanProjectileBase_Setup_5]()
+	![ANonHitScanProjectileBase_Setup_5](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_5.png)
 
   - Set the colision options:
 
-	![ANonHitScanProjectileBase_Setup_6]()
+	![ANonHitScanProjectileBase_Setup_6](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_6.png)
 
   - Finally Set the desired projectile options
 
