@@ -1,7 +1,7 @@
 # Table Of Contents
 - [Table Of Contents](#table-of-contents)
 - [Inicial Setup](#inicial-setup)
-- [Using The Weapons](#using-the-weapons)
+- [Rundown and how to use The Weapons](#rundown-and-how-to-use-the-weapons)
 	- [AProjectileBase](#aprojectilebase)
 	- [UWeaponHolderComponent](#uweaponholdercomponent)
 	- [AWeaponBase](#aweaponbase)
@@ -90,7 +90,7 @@ public class CustomCodeCollection : ModuleRules
 ```
 4. Export and import WBP_DamageNumbersWidget
 
-# Using The Weapons
+# Rundown and how to use The Weapons
 In this section we will show the damage module main features of this module and how to use them
 
 ## AProjectileBase
@@ -103,23 +103,50 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 
 - **AHitScanProjectileBase Setup:**
   - First create a child blueprint of the ANonHitScanProjectileBase class:
-  ![AHitScanProjectileBase_Setup_1](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_1.png?token=AOUDIB2OZZTSWCJRZXZOUV3BGZGD4)
+  ![AHitScanProjectileBase_Setup_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_1.png)
   - Set is name acording to the recomended template: HSPBP_\<SomeName\>:
-  ![AHitScanProjectileBase_Setup_2](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png?token=AOUDIB4DXB5YR7G3WICMPJDBGZGLQ)
+  ![AHitScanProjectileBase_Setup_2](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png?token=AOUDIB6RKW6BDBGROSURCJDBGZHM2)
   - Finally Set the desired options
 
 ## UWeaponHolderComponent
 - **Setup:**
   
-  1. Add a UWeaponHolderComponent in the desired actor, for example:
+  1. Add a UWeaponHolderComponent in the desired actor (doesnt have to be a ACharacter like in the example), for example:
   	```c++
-	
+	//==============================in .h========================
+	UCLASS()
+	class NEWPROJECTNAME_API ADemoChar : public ACharacter
+	{
+		GENERATED_BODY()
+		//other code
+
+	public;
+		ADemoChar();
+
+	protected:
+		//other code
+
+		//the WeaponHolder ref
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+		UWeaponHolderComponent* WeaponHolder;
+
+		//more code
+	};
+
+	//===============in .cpp=====================
+	ADemoChar::ADemoChar()
+	{
+		//other setup code
+
+		//creates the component
+		WeaponHolder = CreateDefaultSubobject<UWeaponHolderComponent>(TEXT("WeaponHolder"));
+	}
 	```
 	
 	or
 	![UWeaponHolderComponent_Setup_1](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/UWeaponHolderComponent_Setup_1.png?token=AOUDIB2BM4C3KVRB53E3FJLBGZGUA)
 	
-  2. Attach the UWeaponHolderComponent to the mesh and bone that will hold weapons like so:
+  1. Attach the UWeaponHolderComponent to the mesh and bone that will hold weapons like so:
 	```c++
 	//in the .cpp
 	ADemoChar::ADemoChar()
