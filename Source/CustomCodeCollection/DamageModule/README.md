@@ -3,6 +3,8 @@
 - [Inicial Setup](#inicial-setup)
 - [Rundown and how to use The Weapons](#rundown-and-how-to-use-the-weapons)
 	- [AProjectileBase](#aprojectilebase)
+		- [Setupt](#setupt)
+		- [Projectile options](#projectile-options)
 	- [UWeaponHolderComponent](#uweaponholdercomponent)
 	- [AWeaponBase](#aweaponbase)
 	- [AWeaponAgregateBase](#aweaponagregatebase)
@@ -88,7 +90,9 @@ public class CustomCodeCollection : ModuleRules
 	}
 }
 ```
-4. Export and import WBP_DamageNumbersWidget
+4. Create a child class of UUserWidget named WBP_DamageNumbersWidget
+5. Change the parent class to UDamageNumbersWidget
+6. Copy the WBP_DamageNumbersWidget from this project:
 
 # Rundown and how to use The Weapons
 In this section we will show the damage module main features of this module and how to use them
@@ -100,6 +104,8 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 1. **AHitScanProjectileBase:** this is a hitscan projectile meaning that the bulled has instantaneous travel speed, achieved through a line trace made by the AGunBase when spawning the projectile.
    
 2. **ANonHitScanProjectileBase:** this is a non hit scan projectile meaning it has travel time, this is achieved through UE's UProjectileMovementComponent.
+
+### Setupt
 
 - **AHitScanProjectileBase Setup:**
   - First create a child blueprint of the AHitScanProjectileBase class:
@@ -140,6 +146,45 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 	![ANonHitScanProjectileBase_Setup_6](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_6.png)
 
   - Finally Set the desired projectile options
+  
+### Projectile options
+- These are options that are comun to both ANonHitScanProjectileBase and AHitScanProjectileBase
+- AProjectileBase options:
+  	
+	![Projectile_options_1]()
+
+	- **Can Explode:** if true the projectile will explode when it hits
+	- **Explosion Delay:** the delay after the projectile actor registers a hit event to explode on seconds
+	- **Explosion Radious:** the radious of the explosion
+- Hit Particles options:
+  
+	![Projectile_options_2]()
+
+  - this is the particles that will appear when the projectile hits a surface
+- Explosion Particles options:
+  
+	![Projectile_options_3]()
+
+  - this is the particles that will appear when the projectile explodes
+
+- Hit Damage Component options:
+  
+	![Projectile_options_4]()
+
+  - this is the Damage info that will be used when the projectile hits a ADamageableCharacter
+  - **Damage Numbers Widget Class:** the class of the DamageNumbers that will be spawned in the damage instance, if left empty no floating damage numbers will be spawned
+  - **Damage:** the base damage
+  - **Damage Type:** to be implemented by the end user, this is the status effect of the damage instance and are intended to be handled (its effects on the damaged actor) in the UHealthComponent
+  - **Crit Chance:** the chance of criting, it allows for percentages hover 1, if this is the case it can red crit like in warframe, and the out damge of a crit is equal to the crit damage to the power of the crit lvl times the damage
+  - **Crit Damage:** the multiplier that will be applied to the damage when it crits
+  - **Options under the charge tab:** this is how the corresponding stat varies acording to the charge percentage, for example in the "Damage Charge Variation" if the charge percentage is 0.5 then the damage will be 0.5*Damage. This is only used in charge weapons, any other weapon the charge percentage is 1 by default
+
+- Explosion Damage Component options:
+  
+	![Projectile_options_5]()
+
+  - this is the Damage info that will be used when the projectile explodes near a ADamageableCharacter
+  - Has the same attributes as the Hit Damage Component
 
 ## UWeaponHolderComponent
 - **Setup:**
