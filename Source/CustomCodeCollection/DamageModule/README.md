@@ -103,13 +103,22 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 
 - **AHitScanProjectileBase Setup:**
   - First create a child blueprint of the ANonHitScanProjectileBase class:
+  ![AHitScanProjectileBase_Setup_1](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_1.png?token=AOUDIB2OZZTSWCJRZXZOUV3BGZGD4)
   - Set is name acording to the recomended template: HSPBP_\<SomeName\>:
+  ![AHitScanProjectileBase_Setup_2](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png?token=AOUDIB4DXB5YR7G3WICMPJDBGZGLQ)
   - Finally Set the desired options
 
 ## UWeaponHolderComponent
 - **Setup:**
   
   1. Add a UWeaponHolderComponent in the desired actor, for example:
+  	```c++
+	
+	```
+	
+	or
+	![UWeaponHolderComponent_Setup_1](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/UWeaponHolderComponent_Setup_1.png?token=AOUDIB2BM4C3KVRB53E3FJLBGZGUA)
+	
   2. Attach the UWeaponHolderComponent to the mesh and bone that will hold weapons like so:
 	```c++
 	//in the .cpp
@@ -125,7 +134,7 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 	}
 	```
 	or
-
+	![UWeaponHolderComponent_Setup_2](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/UWeaponHolderComponent_Setup_2.png?token=AOUDIBYV7Y3SHKRSIJT2BKTBGZHAO)
   3. 
 
 ## AWeaponBase
