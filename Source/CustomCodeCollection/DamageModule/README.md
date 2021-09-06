@@ -102,13 +102,17 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 2. **ANonHitScanProjectileBase:** this is a non hit scan projectile meaning it has travel time, this is achieved through UE's UProjectileMovementComponent.
 
 - **AHitScanProjectileBase Setup:**
-  - First create a child blueprint of the ANonHitScanProjectileBase class:
+  - First create a child blueprint of the AHitScanProjectileBase class:
   ![AHitScanProjectileBase_Setup_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_1.png)
   
   - Set is name acording to the recomended template: HSPBP_\<SomeName\>:
   ![AHitScanProjectileBase_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png)
   
   - Finally Set the desired options
+
+- **ANonHitScanProjectileBase Setup:**
+  - First create a child blueprint of the ANonHitScanProjectileBase class:
+  ![ANonHitScanProjectileBase_Setup_1]()
 
 ## UWeaponHolderComponent
 - **Setup:**
