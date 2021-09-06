@@ -105,7 +105,7 @@ This is what the objects of the class AGunBase use to shoot and there exists two
   - First create a child blueprint of the ANonHitScanProjectileBase class:
   ![AHitScanProjectileBase_Setup_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_1.png)
   - Set is name acording to the recomended template: HSPBP_\<SomeName\>:
-  ![AHitScanProjectileBase_Setup_2](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png?token=AOUDIB6RKW6BDBGROSURCJDBGZHM2)
+  ![AHitScanProjectileBase_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png)
   - Finally Set the desired options
 
 ## UWeaponHolderComponent
@@ -144,7 +144,7 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 	```
 	
 	or
-	![UWeaponHolderComponent_Setup_1](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/UWeaponHolderComponent_Setup_1.png?token=AOUDIB2BM4C3KVRB53E3FJLBGZGUA)
+	![UWeaponHolderComponent_Setup_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/UWeaponHolderComponent_Setup_1.png)
 	
   1. Attach the UWeaponHolderComponent to the mesh and bone that will hold weapons like so:
 	```c++
@@ -161,7 +161,7 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 	}
 	```
 	or
-	![UWeaponHolderComponent_Setup_2](https://raw.githubusercontent.com/beybladeuser/UE-CustomCodeCollection/master/Source/CustomCodeCollection/DamageModule/README_IMGs/UWeaponHolderComponent_Setup_2.png?token=AOUDIBYV7Y3SHKRSIJT2BKTBGZHAO)
+	![UWeaponHolderComponent_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/UWeaponHolderComponent_Setup_2.png)
   3. 
 
 ## AWeaponBase
