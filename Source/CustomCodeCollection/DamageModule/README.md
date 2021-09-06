@@ -120,12 +120,25 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 
   - Set is name acording to the recomended template: PBP_\<SomeName\>:
   
-  ![ANonHitScanProjectileBase_Setup_2]()
+  ![ANonHitScanProjectileBase_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_2.png)
 
   - PBP == Projectile BluePrint
-  - Set The Mesh
-  - Set the atributes for the UProjectileMovementComponent
-  - Set the atributes for the URotatingMovementComponent
+  - Set The Mesh:
+
+	![ANonHitScanProjectileBase_Setup_3]()
+
+  - Set the atributes for the UProjectileMovementComponent:
+
+	![ANonHitScanProjectileBase_Setup_4]()
+
+  - Set the atributes for the URotatingMovementComponent:
+
+	![ANonHitScanProjectileBase_Setup_5]()
+
+  - Set the colision options:
+
+	![ANonHitScanProjectileBase_Setup_6]()
+
   - Finally Set the desired projectile options
 
 ## UWeaponHolderComponent
