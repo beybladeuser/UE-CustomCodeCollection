@@ -108,11 +108,21 @@ This is what the objects of the class AGunBase use to shoot and there exists two
   - Set is name acording to the recomended template: HSPBP_\<SomeName\>:
   ![AHitScanProjectileBase_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png)
   
-  - Finally Set the desired options
+  - HSPBP == HitScan Projectile BluePrint
+  - Finally Set the desired projectile options
 
 - **ANonHitScanProjectileBase Setup:**
   - First create a child blueprint of the ANonHitScanProjectileBase class:
-  ![ANonHitScanProjectileBase_Setup_1]()
+  ![ANonHitScanProjectileBase_Setup_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_1.png)
+
+  - Set is name acording to the recomended template: PBP_\<SomeName\>:
+  ![ANonHitScanProjectileBase_Setup_2]()
+
+  - PBP == Projectile BluePrint
+  - Set The Mesh
+  - Set the atributes for the UProjectileMovementComponent
+  - Set the atributes for the URotatingMovementComponent
+  - Finally Set the desired projectile options
 
 ## UWeaponHolderComponent
 - **Setup:**
