@@ -2,6 +2,7 @@
 - [Table Of Contents](#table-of-contents)
 - [Inicial Setup](#inicial-setup)
 - [Using The Weapons](#using-the-weapons)
+	- [AProjectileBase](#aprojectilebase)
 	- [UWeaponHolderComponent](#uweaponholdercomponent)
 	- [AWeaponBase](#aweaponbase)
 	- [AWeaponAgregateBase](#aweaponagregatebase)
@@ -62,7 +63,7 @@ To use this in your project you only need to:
 
 3. Add the Niagara and UMG Modules to the .Build.cs like so:
 
-```c++
+```c#
 // Fill out your copyright notice in the Description page of Project Settings.
 
 using UnrealBuildTool;
@@ -92,10 +93,40 @@ public class CustomCodeCollection : ModuleRules
 # Using The Weapons
 In this section we will show the damage module main features of this module and how to use them
 
+## AProjectileBase
+
+This is what the objects of the class AGunBase use to shoot and there exists two types of prjectiles:
+
+1. **AHitScanProjectileBase:** this is a hitscan projectile meaning that the bulled has instantaneous travel speed, achieved through a line trace made by the AGunBase when spawning the projectile.
+   
+2. **ANonHitScanProjectileBase:** this is a non hit scan projectile meaning it has travel time, this is achieved through UE's UProjectileMovementComponent.
+
+- **AHitScanProjectileBase Setup:**
+  - First create a child blueprint of the ANonHitScanProjectileBase class:
+  - Set is name acording to the recomended template: HSPBP_\<SomeName\>:
+  - Finally Set the desired options
+
 ## UWeaponHolderComponent
 - **Setup:**
   
-  1. Add 
+  1. Add a UWeaponHolderComponent in the desired actor, for example:
+  2. Attach the UWeaponHolderComponent to the mesh and bone that will hold weapons like so:
+	```c++
+	//in the .cpp
+	ADemoChar::ADemoChar()
+	{
+		//other setup code
+
+		//creates the component
+		WeaponHolder = CreateDefaultSubobject<UWeaponHolderComponent>(TEXT("WeaponHolder"));
+
+		//attaches the weapon holder to the Character Mesh and the bone WeaponSocket
+		WeaponHolder->SetupAttachment(GetMesh(), TEXT("WeaponSocket"));
+	}
+	```
+	or
+
+  3. 
 
 ## AWeaponBase
 This is a simple weapon class that can only perform one action this is achieved by the use of the following functions:
