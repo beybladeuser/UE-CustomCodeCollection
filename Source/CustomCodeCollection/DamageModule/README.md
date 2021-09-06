@@ -104,8 +104,10 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 - **AHitScanProjectileBase Setup:**
   - First create a child blueprint of the ANonHitScanProjectileBase class:
   ![AHitScanProjectileBase_Setup_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_1.png)
+  
   - Set is name acording to the recomended template: HSPBP_\<SomeName\>:
   ![AHitScanProjectileBase_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png)
+  
   - Finally Set the desired options
 
 ## UWeaponHolderComponent
