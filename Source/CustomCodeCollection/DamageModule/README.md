@@ -151,25 +151,25 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 - These are options that are comun to both ANonHitScanProjectileBase and AHitScanProjectileBase
 - AProjectileBase options:
   	
-	![Projectile_options_1]()
+	![Projectile_options_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/Projectile_options_1.png)
 
 	- **Can Explode:** if true the projectile will explode when it hits
 	- **Explosion Delay:** the delay after the projectile actor registers a hit event to explode on seconds
 	- **Explosion Radious:** the radious of the explosion
 - Hit Particles options:
   
-	![Projectile_options_2]()
+	![Projectile_options_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/Projectile_options_2.png)
 
   - this is the particles that will appear when the projectile hits a surface
 - Explosion Particles options:
   
-	![Projectile_options_3]()
+	![Projectile_options_3](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/Projectile_options_3.png)
 
   - this is the particles that will appear when the projectile explodes
 
 - Hit Damage Component options:
   
-	![Projectile_options_4]()
+	![Projectile_options_4](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/Projectile_options_4.png)
 
   - this is the Damage info that will be used when the projectile hits a ADamageableCharacter
   - **Damage Numbers Widget Class:** the class of the DamageNumbers that will be spawned in the damage instance, if left empty no floating damage numbers will be spawned
@@ -181,7 +181,7 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 
 - Explosion Damage Component options:
   
-	![Projectile_options_5]()
+	![Projectile_options_5](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/Projectile_options_5.png)
 
   - this is the Damage info that will be used when the projectile explodes near a ADamageableCharacter
   - Has the same attributes as the Hit Damage Component
