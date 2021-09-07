@@ -36,11 +36,22 @@ void AProjectileBase::BeginPlay()
 
 void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	//ignore more than 1 hit
 	if (GetWorldTimerManager().IsTimerActive(ExplosionDelayHandle)) { return; }
+	
+	//FX
 	HitParticles->SetWorldLocation(Hit.ImpactPoint);
 	HitParticles->SetWorldRotation(Hit.ImpactNormal.Rotation());
 	HitParticles->SetActive(true);
+	if (HitSound)
+	{
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), HitSound, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+	}
+
+	//damage the actor
 	DamageActor(HitDamageComponent, OtherActor, Hit, false);
+
+	//setup the explosion
 	if (bCanExplode)
 	{
 		if (ExplosionDelay)
@@ -81,6 +92,7 @@ void AProjectileBase::Detonate()
 	}
 
 	bCanBeDestroyed = true;
+	
 }
 
 void AProjectileBase::DamageActor(UDamageComponent* DamageComponent, AActor* OtherActor, const FHitResult& Hit, bool IsExplosion)
@@ -100,6 +112,13 @@ void AProjectileBase::DamageActor(UDamageComponent* DamageComponent, AActor* Oth
 			UGameplayStatics::ApplyDamage(OtherActor, Damage.Damage, OwnerPawn->GetController(), OwnerPawn, Damage.DamageType);
 		}
 	}
+}
+
+void AProjectileBase::PerpareToDestroy(bool bIsExplosion)
+{
+	//HitParticles->OnComponentDeactivated.AddDynamic(this, &AProjectileBase::DestroySelf);
+	//ExplosionParticles->OnComponentDeactivated.AddDynamic(this, &AProjectileBase::DestroySelf);
+	
 }
 
 void AProjectileBase::DestroySelf()

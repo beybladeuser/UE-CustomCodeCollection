@@ -36,6 +36,7 @@ void UWeaponHolderComponent::BeginPlay()
 		HeldWeapons[i] = GetWorld()->SpawnActor<AWeaponBase>(WeaponClass.Key);
 		HeldWeapons[i]->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
 		HeldWeapons[i]->SetOwner(GetOwner());
+		HeldWeapons[i]->SetActorRelativeTransform(WeaponClass.Value);
 		HeldWeapons[i]->SetActorHiddenInGame(true);
 		i++;
 	}

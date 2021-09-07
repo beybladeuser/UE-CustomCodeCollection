@@ -9,6 +9,7 @@
 class USphereComponent;
 class UNiagaraComponent;
 class UDamageComponent;
+class USoundBase;
 
 UCLASS()
 class CUSTOMCODECOLLECTION_API AProjectileBase : public AActor
@@ -30,6 +31,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UDamageComponent* ExplosionDamageComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
+	USoundBase* HitSound = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives")
 	bool bCanExplode = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives", meta = (EditCondition = "bCanExplode"))
@@ -37,7 +40,9 @@ protected:
 	FTimerHandle ExplosionDelayHandle;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives", meta = (EditCondition = "bCanExplode"))
 	float ExplosionRadious = 100.f;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives", meta = (EditCondition = "bCanExplode"))
+	USoundBase* ExplosionSound = nullptr;
+
 	bool bCanBeDestroyed = false;
 	float ChargePercentage = 1.f;
 
@@ -52,6 +57,7 @@ protected:
 
 	void DamageActor(UDamageComponent* DamageComponent, AActor* OtherActor, const FHitResult& Hit, bool IsExplosion);
 
+	void PerpareToDestroy(bool bIsExplosion);
 	void DestroySelf();
 public:
 	virtual void NotifyTraceResult(bool bWasTraceSuccessful, const FHitResult& Hit);
