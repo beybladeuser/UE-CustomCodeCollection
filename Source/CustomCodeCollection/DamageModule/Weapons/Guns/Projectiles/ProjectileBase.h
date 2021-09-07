@@ -10,6 +10,7 @@ class USphereComponent;
 class UNiagaraComponent;
 class UDamageComponent;
 class USoundBase;
+class UNiagaraSystem;
 
 UCLASS()
 class CUSTOMCODECOLLECTION_API AProjectileBase : public AActor
@@ -23,16 +24,14 @@ public:
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UNiagaraComponent* HitParticles;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UNiagaraComponent* ExplosionParticles;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UDamageComponent* HitDamageComponent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UDamageComponent* ExplosionDamageComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|FX")
 	USoundBase* HitSound = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|FX")
+	UNiagaraSystem* HitParticles = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives")
 	bool bCanExplode = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives", meta = (EditCondition = "bCanExplode"))
@@ -40,10 +39,11 @@ protected:
 	FTimerHandle ExplosionDelayHandle;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives", meta = (EditCondition = "bCanExplode"))
 	float ExplosionRadious = 100.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives", meta = (EditCondition = "bCanExplode"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives|FX", meta = (EditCondition = "bCanExplode"))
 	USoundBase* ExplosionSound = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile|Explosives|FX", meta = (EditCondition = "bCanExplode"))
+	UNiagaraSystem* ExplosionParticles = nullptr;
 
-	bool bCanBeDestroyed = false;
 	float ChargePercentage = 1.f;
 
 	// Called when the game starts or when spawned
@@ -57,7 +57,6 @@ protected:
 
 	void DamageActor(UDamageComponent* DamageComponent, AActor* OtherActor, const FHitResult& Hit, bool IsExplosion);
 
-	void PerpareToDestroy(bool bIsExplosion);
 	void DestroySelf();
 public:
 	virtual void NotifyTraceResult(bool bWasTraceSuccessful, const FHitResult& Hit);

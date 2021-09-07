@@ -2,7 +2,8 @@
 
 
 #include "ProjectileBase.h"
-#include "NiagaraComponent.h"
+#include "NiagaraSystem.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../../Components/ActorComponents/DamageComponent.h"
 #include "../../../Characters/DamageableCharacter.h"
@@ -11,20 +12,10 @@
 AProjectileBase::AProjectileBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
-	HitParticles = CreateDefaultSubobject<UNiagaraComponent>("HitParticles");
-	ExplosionParticles = CreateDefaultSubobject<UNiagaraComponent>("ExplosionParticles");
 	HitDamageComponent = CreateDefaultSubobject<UDamageComponent>("HitDamageComponent");
 	ExplosionDamageComponent = CreateDefaultSubobject<UDamageComponent>("ExplosionDamageComponent");
-
-	ExplosionParticles->SetupAttachment(HitParticles);
-
-	RootComponent = HitParticles;
-
-	HitParticles->SetAutoActivate(false);
-	ExplosionParticles->SetAutoActivate(false);
-
 }
 
 // Called when the game starts or when spawned
@@ -40,13 +31,8 @@ void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActo
 	if (GetWorldTimerManager().IsTimerActive(ExplosionDelayHandle)) { return; }
 	
 	//FX
-	HitParticles->SetWorldLocation(Hit.ImpactPoint);
-	HitParticles->SetWorldRotation(Hit.ImpactNormal.Rotation());
-	HitParticles->SetActive(true);
-	if (HitSound)
-	{
-		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), HitSound, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
-	}
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), HitParticles, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), HitSound, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 
 	//damage the actor
 	DamageActor(HitDamageComponent, OtherActor, Hit, false);
@@ -65,7 +51,7 @@ void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActo
 	}
 	else
 	{
-		bCanBeDestroyed = true;
+		DestroySelf();
 	}
 }
 
@@ -76,7 +62,9 @@ void AProjectileBase::StartDetonation()
 
 void AProjectileBase::Detonate()
 {
-	ExplosionParticles->SetActive(true);
+	//FX
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ExplosionParticles, GetActorLocation(), FRotator());
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), HitSound, GetActorLocation(), FRotator());
 
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADamageableCharacter::StaticClass(), FoundActors);
@@ -91,8 +79,7 @@ void AProjectileBase::Detonate()
 		
 	}
 
-	bCanBeDestroyed = true;
-	
+	DestroySelf();
 }
 
 void AProjectileBase::DamageActor(UDamageComponent* DamageComponent, AActor* OtherActor, const FHitResult& Hit, bool IsExplosion)
@@ -114,13 +101,6 @@ void AProjectileBase::DamageActor(UDamageComponent* DamageComponent, AActor* Oth
 	}
 }
 
-void AProjectileBase::PerpareToDestroy(bool bIsExplosion)
-{
-	//HitParticles->OnComponentDeactivated.AddDynamic(this, &AProjectileBase::DestroySelf);
-	//ExplosionParticles->OnComponentDeactivated.AddDynamic(this, &AProjectileBase::DestroySelf);
-	
-}
-
 void AProjectileBase::DestroySelf()
 {
 	GetWorld()->DestroyActor(this);
@@ -140,10 +120,5 @@ void AProjectileBase::NotifyCharge(float Charge)
 void AProjectileBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (bCanBeDestroyed && !HitParticles->IsActive() && !ExplosionParticles->IsActive())
-	{
-		DestroySelf();
-	}
 }
 

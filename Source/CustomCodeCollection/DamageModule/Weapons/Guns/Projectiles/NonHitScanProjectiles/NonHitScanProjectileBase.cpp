@@ -36,8 +36,6 @@ ANonHitScanProjectileBase::ANonHitScanProjectileBase()
 	RootComponent = Collision;
 
 	Mesh->SetupAttachment(Collision);
-	HitParticles->SetupAttachment(Collision);
-	ExplosionParticles->SetupAttachment(Collision);
 
 	//RotatingMovement->RotationRate = FRotator(0.0f, 360.0f, 0.f);
 	RotatingMovement->RotationRate = FRotator(0.0f, 0.0f, 0.f);

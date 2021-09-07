@@ -127,7 +127,7 @@ AProjectileBase* AGunBase::SpawnProjectile()
 		
 		//Shot FX
 		//SpawnSystemAttached(UNiagaraSystem * SystemTemplate, USceneComponent * AttachToComponent, FName AttachPointName, FVector Location, FRotator Rotation, EAttachLocation::Type LocationType, bool bAutoDestroy
-		UNiagaraFunctionLibrary::SpawnSystemAttached(MuzzleFlashParticles, ProjectileSpawnPoint, FName(), FVector(), FRotator(), EAttachLocation::SnapToTarget, true);
+		UNiagaraFunctionLibrary::SpawnSystemAttached(MuzzleFlashParticles, ProjectileSpawnPoint, FName(), FVector(0.f, 0.f, 0.f), FRotator(0.f, 0.f, 0.f), EAttachLocation::SnapToTarget, true);
 		UGameplayStatics::SpawnSoundAttached(MuzzleSound, ProjectileSpawnPoint);
 
 		//Fire Rate Handling
