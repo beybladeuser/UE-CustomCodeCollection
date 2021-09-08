@@ -42,7 +42,12 @@ ANonHitScanProjectileBase::ANonHitScanProjectileBase()
 	ProjectileMovement->InitialSpeed = 1000.f;
 
 	Collision->SetCollisionProfileName(TEXT("BlockAllDynamic"));
-	Collision->SetNotifyRigidBodyCollision(true);
+	//Collision->SetNotifyRigidBodyCollision(true);
 
 	Collision->OnComponentHit.AddDynamic(this, &ANonHitScanProjectileBase::OnHit);
+}
+
+void ANonHitScanProjectileBase::NotifyIgnoredActor(AActor* ActorToIgnore)
+{
+	Collision->IgnoreActorWhenMoving(ActorToIgnore, true);
 }

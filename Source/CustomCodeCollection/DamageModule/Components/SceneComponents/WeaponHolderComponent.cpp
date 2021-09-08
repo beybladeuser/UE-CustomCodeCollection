@@ -34,10 +34,13 @@ void UWeaponHolderComponent::BeginPlay()
 	for (TPair<TSubclassOf<AWeaponBase>, FTransform> WeaponClass : HeldWeaponsClasses)
 	{
 		HeldWeapons[i] = GetWorld()->SpawnActor<AWeaponBase>(WeaponClass.Key);
-		HeldWeapons[i]->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
-		HeldWeapons[i]->SetOwner(GetOwner());
-		HeldWeapons[i]->SetActorRelativeTransform(WeaponClass.Value);
-		HeldWeapons[i]->SetActorHiddenInGame(true);
+		if (HeldWeapons[i])
+		{
+			HeldWeapons[i]->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
+			HeldWeapons[i]->SetOwner(GetOwner());
+			HeldWeapons[i]->SetActorRelativeTransform(WeaponClass.Value);
+			HeldWeapons[i]->SetActorHiddenInGame(true);
+		}
 		i++;
 	}
 	SwapActiveWeapon(ActiveWeaponIndex);
@@ -48,11 +51,12 @@ void UWeaponHolderComponent::BeginPlay()
 AWeaponBase* UWeaponHolderComponent::GetActiveWeapon()
 {
 	TArray<AWeaponBase*> AllHeldWeapons = GetAllHeldWeapons();
-	if (AllHeldWeapons.Num() > ActiveWeaponIndex)
+
+	if ( 0 <= ActiveWeaponIndex && ActiveWeaponIndex < AllHeldWeapons.Num() )
 	{
 		return AllHeldWeapons[ActiveWeaponIndex];
 	}
-	else
+	else if (ActiveWeaponIndex != -1 && bUseActiveWeaponIndexEqualMinusOneAsUnharmed)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Invalid ActiveWeaponIndex in UWeaponHolderComponent of Actor %s"), *GetOwner()->GetName())
 	}
@@ -65,7 +69,8 @@ void UWeaponHolderComponent::SwapActiveWeapon(int32 Index)
 	{
 		return;
 	}
-	ActiveWeaponIndex = FMath::Clamp(Index, 0, GetAllHeldWeapons().Num() - 1);
+	int32 MinClamp = bUseActiveWeaponIndexEqualMinusOneAsUnharmed ? -1 : 0;
+	ActiveWeaponIndex = FMath::Clamp(Index, MinClamp, GetAllHeldWeapons().Num() - 1);
 	AWeaponBase* SimpleWeapon = GetActiveWeapon();
 	if (Cast<AWeaponAgregateBase>(SimpleWeapon))
 	{
@@ -89,11 +94,12 @@ void UWeaponHolderComponent::SwapActiveWeaponByScroll(bool bSrollUp)
 		Sign = 1;
 	}
 	int32 NewIndex = ActiveWeaponIndex + Sign;
+	int32 MinClamp = bUseActiveWeaponIndexEqualMinusOneAsUnharmed ? -1 : 0;
 	if (NewIndex >= GetAllHeldWeapons().Num())
 	{
-		NewIndex = 0;
+		NewIndex = MinClamp;
 	}
-	else if (NewIndex < 0)
+	else if (NewIndex < MinClamp)
 	{
 		NewIndex = GetAllHeldWeapons().Num() - 1;
 	}

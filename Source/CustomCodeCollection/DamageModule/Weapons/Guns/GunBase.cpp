@@ -122,6 +122,13 @@ AProjectileBase* AGunBase::SpawnProjectile()
 		//Projectile Spawn
 		AProjectileBase* Projectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, Transform);
 		Projectile->SetOwner(GetOwner());
+		Projectile->NotifyIgnoredActor(GetOwner());
+		TArray<UPrimitiveComponent*> Collisions;
+		GetOwner()->GetComponents(Collisions, true);
+		for (UPrimitiveComponent* Collision : Collisions)
+		{
+			Collision->IgnoreActorWhenMoving(Projectile, true);
+		}
 		NotifyChargePercentToProjectileDamageComps(Projectile);
 		Projectile->NotifyTraceResult(bWasTraceSuccessful, Hit);
 		

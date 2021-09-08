@@ -6,6 +6,8 @@
 		- [Setupt](#setupt)
 		- [Projectile options](#projectile-options)
 	- [AWeaponBase](#aweaponbase)
+		- [AGunBase](#agunbase)
+	- [ASemiAutoGunBase](#asemiautogunbase)
 	- [UWeaponHolderComponent](#uweaponholdercomponent)
 - [Tips](#tips)
 
@@ -111,11 +113,11 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 
   ![AHitScanProjectileBase_Setup_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_1.png)
   
-  - Set is name acording to the recomended template: HSPBP_\<SomeName\>:
+  - Set is name acording to the recomended template: BPHSP_\<SomeName\>:
   
   ![AHitScanProjectileBase_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/AHitScanProjectileBase_Setup_2.png)
   
-  - HSPBP == HitScan Projectile BluePrint
+  - BPHSP == BluePrint HitScan Projectile
   - Finally Set the desired projectile options
 
 - **ANonHitScanProjectileBase Setup:**
@@ -123,11 +125,11 @@ This is what the objects of the class AGunBase use to shoot and there exists two
   
   ![ANonHitScanProjectileBase_Setup_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_1.png)
 
-  - Set is name acording to the recomended template: PBP_\<SomeName\>:
+  - Set is name acording to the recomended template: BPP_\<SomeName\>:
   
   ![ANonHitScanProjectileBase_Setup_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_2.png)
 
-  - PBP == Projectile BluePrint
+  - BPP == BluePrint Projectile
   - Set The Mesh:
 
 	![ANonHitScanProjectileBase_Setup_3](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_3.png)
@@ -152,19 +154,13 @@ This is what the objects of the class AGunBase use to shoot and there exists two
   	
 	![Projectile_options_1](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/Projectile_options_1.png)
 
+	- **Hit Sound:** the sound the projectile makes when it hits a surface
+	- **Hit Particles:** this is the particles that will appear when the projectile hits a surface
 	- **Can Explode:** if true the projectile will explode when it hits
 	- **Explosion Delay:** the delay after the projectile actor registers a hit event to explode on seconds
 	- **Explosion Radious:** the radious of the explosion
-- Hit Particles options:
-  
-	![Projectile_options_2](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/Projectile_options_2.png)
-
-  - this is the particles that will appear when the projectile hits a surface
-- Explosion Particles options:
-  
-	![Projectile_options_3](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/Projectile_options_3.png)
-
-  - this is the particles that will appear when the projectile explodes
+	- **Explosion Sound:** the sound the projectile makes when it explodes
+	- **Explosion Particles:** this is the particles that will appear when the projectile explodes
 
 - Hit Damage Component options:
   
@@ -197,7 +193,37 @@ This is the basic class of the weapons, this has the following child classes:
 2. **AMeleeBase:** to be implementaded
 3. **AWeaponAgregateBase:** a agregate of several AWeaponBase each with its own id, used for weapons with alternate fire modes
    1. **AFireModeToggleAgregateBase:** same as AWeaponAgregateBase but when you use the alternate fire it will scroll through the diferent AWeaponBase
+   
+- **AWeaponBase Options**
+	this options are common to all weapons
+	
+	![AWeaponBase_options_1]()
 
+  - **Weapon Type:** an enum used for animations purposes, more specifically how to hold the weapon, you can add more in the WeaponBase.h file
+  
+### AGunBase
+
+This class isnt intended to create blueprint child classes so the following setup section will be for all AGunBase c++ child classes, because this setup is equal to all of them
+
+- **Setup:**
+  - First you create a child class of one of the AGunBase c++ child classes
+  - Define the Mesh
+  - Place the USceneComponent called Projectile Spawn Point at the end of the barrel of the gun (the arrow indicates the direction that the spawn point is facing)
+  - Finally define the AGunBase Options
+  
+- **AGunBase Options**
+  
+  ![AGunBase_options_1]()
+
+  - **Fire Rate:** the amount of projectiles the gun can shoot per second (the gun down time is 1 / Fire Rate)
+  - **Projectile Class:** the AProjectileBase class that will be spawn wen the gun shoots
+  - **Muzzle Flash Particles:** the particles that spawn when the gun shoots (they spawn at the Projectile Spawn Point USceneComponent location)
+  - **Muzzle Sound:** the sound that the gun does when firing
+  - **Use Projectile Spawn Point Rotation:** if this option is false the gun will make a trace to check where the player is facing (i.e. the camera, works with AI to though) and spawn the projectile in the direction of where the camera is facing, if true the projectile will spawn in the direction the AGunBase is physically facing (usefull for vehicle weapons like tank turrets or plane machine guns)
+  - **Max Trace Range:** The range of the previously mentioned gun trace, thats done when Use Projectile Spawn Point Rotation==false
+  - **Trace Channel:** The channel of the trace
+
+## ASemiAutoGunBase
 
 ## UWeaponHolderComponent
 - **Setup:**

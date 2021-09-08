@@ -106,6 +106,11 @@ void AProjectileBase::DestroySelf()
 	GetWorld()->DestroyActor(this);
 }
 
+void AProjectileBase::NotifyIgnoredActor(AActor* ActorToIgnore)
+{
+
+}
+
 void AProjectileBase::NotifyTraceResult(bool bWasTraceSuccessful, const FHitResult& Hit)
 {
 

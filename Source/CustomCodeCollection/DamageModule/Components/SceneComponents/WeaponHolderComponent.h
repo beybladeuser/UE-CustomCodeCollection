@@ -25,8 +25,12 @@ protected:
 
 	TArray<AWeaponBase*> HeldWeapons;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapons")
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapons", meta = (ClampMin = "0"))
 	int32 ActiveWeaponIndex = 0;
+	//if true ActiveWeaponIndex == -1 == unarmed, this will also make it so that when scrolling the equiped weapons you will scroll through the unharmed state
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapons")
+	bool bUseActiveWeaponIndexEqualMinusOneAsUnharmed = true;
 	bool bCurrentActiveWeaponIsAgregate = false;
 	bool bCanSwapWeapon = true;
 

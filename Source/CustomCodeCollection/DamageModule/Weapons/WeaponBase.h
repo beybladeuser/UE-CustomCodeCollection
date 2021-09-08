@@ -7,6 +7,24 @@
 #include "../Components/ActorComponents/AmmoComponent.h"
 #include "WeaponBase.generated.h"
 
+
+
+UENUM(BlueprintType)
+enum class EWeaponType : uint8
+{
+	OneHandedSinglePistol	UMETA(DisplayName = "OneHandedSinglePistol"),
+	TwoHandedSinglePistol	UMETA(DisplayName = "TwoHandedSinglePistol"),
+	OneHandedDoublePistol	UMETA(DisplayName = "OneHandedDoublePistol"),
+	Rifle					UMETA(DisplayName = "Rifle"),
+	RocketLaucher			UMETA(DisplayName = "RocketLaucher"),
+	OneHandedSingleSword	UMETA(DisplayName = "OneHandSingleSword"),
+	TwoHandedSingleSword	UMETA(DisplayName = "TwoHandedSingleSword"),
+	OneHandedDoubleSword	UMETA(DisplayName = "TwoHandedSingleSword"),
+	Spear					UMETA(DisplayName = "Spear"),
+	Shield					UMETA(DisplayName = "Shield")
+};
+
+
 UCLASS()
 class CUSTOMCODECOLLECTION_API AWeaponBase : public AActor
 {
@@ -18,7 +36,11 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UStaticMeshComponent* Mesh;
+	USkeletalMeshComponent* Mesh;
+
+	//Designed for a animBP to decide how the weapon is held
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	EWeaponType WeaponType;
 
 	UAmmoComponent* AmmoComponent = nullptr;
 
@@ -39,6 +61,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Reload();
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE EWeaponType GetWeaponType() { return WeaponType; }
 
 	AController* GetOwnerController() const;
 

@@ -59,6 +59,7 @@ protected:
 
 	void DestroySelf();
 public:
+	virtual void NotifyIgnoredActor(AActor* ActorToIgnore);
 	virtual void NotifyTraceResult(bool bWasTraceSuccessful, const FHitResult& Hit);
 
 	void NotifyCharge(float Charge);

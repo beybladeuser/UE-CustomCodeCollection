@@ -30,7 +30,10 @@ protected:
 	virtual void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
 
 	virtual void Detonate() override;
+
 public:
 	ANonHitScanProjectileBase();
+
+	virtual void NotifyIgnoredActor(AActor* ActorToIgnore) override;
 
 };
