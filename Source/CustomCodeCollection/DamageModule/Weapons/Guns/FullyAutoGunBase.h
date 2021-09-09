@@ -28,7 +28,7 @@ protected:
 	FTimerHandle SpoolResetHandle;
 
 
-	bool bIsFiring = true;
+	bool bIsFiring = false;
 	FTimerHandle AutoFireHandle;
 	float ElapsedTime = 0.f;
 

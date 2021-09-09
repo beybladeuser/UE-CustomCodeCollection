@@ -54,6 +54,13 @@ protected:
 	void RefreshAmmoComponentInstance();
 
 public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnStartUsingWeapon();
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnStopUsingWeapon();
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnStartReload();
+
 	UFUNCTION(BlueprintCallable)
 	virtual void StartUsingWeapon();
 	UFUNCTION(BlueprintCallable)

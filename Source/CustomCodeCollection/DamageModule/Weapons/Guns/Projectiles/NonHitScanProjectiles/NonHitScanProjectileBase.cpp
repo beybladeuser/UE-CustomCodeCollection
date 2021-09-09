@@ -11,19 +11,10 @@ void ANonHitScanProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor*
 {
 	Super::OnHit(HitComponent, OtherActor, OtherComp, NormalImpulse, Hit);
 
-	if (!bCanExplode)
+	if (bCanExplode && bTurnOffCollisionBeforeExplosion)
 	{
-		Mesh->SetHiddenInGame(true);
 		Collision->SetCollisionProfileName(TEXT("NoCollision"));
 	}
-}
-
-void ANonHitScanProjectileBase::Detonate()
-{
-	Super::Detonate();
-
-	Mesh->SetHiddenInGame(true);
-	Collision->SetCollisionProfileName(TEXT("NoCollision"));
 }
 
 ANonHitScanProjectileBase::ANonHitScanProjectileBase()

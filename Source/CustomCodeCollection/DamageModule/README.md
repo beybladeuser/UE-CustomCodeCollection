@@ -7,7 +7,8 @@
 		- [Projectile options](#projectile-options)
 	- [AWeaponBase](#aweaponbase)
 		- [AGunBase](#agunbase)
-	- [ASemiAutoGunBase](#asemiautogunbase)
+		- [ASemiAutoGunBase](#asemiautogunbase)
+		- [AFullyAutoGunBase](#afullyautogunbase)
 	- [UWeaponHolderComponent](#uweaponholdercomponent)
 - [Tips](#tips)
 
@@ -146,6 +147,10 @@ This is what the objects of the class AGunBase use to shoot and there exists two
 
 	![ANonHitScanProjectileBase_Setup_6](https://github.com/beybladeuser/UE-CustomCodeCollection/blob/master/Source/CustomCodeCollection/DamageModule/README_IMGs/ANonHitScanProjectileBase_Setup_6.png)
 
+  - Set the option **bTurnOffCollisionBeforeExplosion** this will turnoff the collision after the projectile hits, if true
+
+	![ANonHitScanProjectileBase_Setup_7]()
+
   - Finally Set the desired projectile options
   
 ### Projectile options
@@ -200,6 +205,35 @@ This is the basic class of the weapons, this has the following child classes:
 	![AWeaponBase_options_1]()
 
   - **Weapon Type:** an enum used for animations purposes, more specifically how to hold the weapon, you can add more in the WeaponBase.h file
+
+- **AWeaponBase Overridable functions in BP:**
+  - the following functions are designed to add animations/extra particles in blueprints, in c++ you would use StartUsingWeapon(), StopUsingWeapon() and Reload() directly. That Said here are the functions:
+  - OnStartUsingWeapon()
+  - StopUsingWeapon()
+  - OnStartReload()
+
+	```c++
+	//in WeaponBase.cpp
+	void AWeaponBase::StartUsingWeapon()
+	{
+		RefreshAmmoComponentInstance();
+		OnStartUsingWeapon();
+	}
+	void AWeaponBase::StopUsingWeapon()
+	{
+		RefreshAmmoComponentInstance();
+		OnStopUsingWeapon();
+	}
+
+	void AWeaponBase::Reload()
+	{
+		if (AmmoComponent)
+		{
+			AmmoComponent->Reload();
+			OnStartReload();
+		}
+	}
+	```
   
 ### AGunBase
 
@@ -223,7 +257,22 @@ This class isnt intended to create blueprint child classes so the following setu
   - **Max Trace Range:** The range of the previously mentioned gun trace, thats done when Use Projectile Spawn Point Rotation==false
   - **Trace Channel:** The channel of the trace
 
-## ASemiAutoGunBase
+### ASemiAutoGunBase
+
+	this does not have anything diferent from AGunBase, except this actually shoots
+
+### AFullyAutoGunBase
+
+- **Setup:**
+  - First do the same setup specified in AGunBase
+  - Then Define the AFullyAutoGunBase Options
+
+- **AFullyAutoGunBase Options**
+
+	![AFullyAutoGunBase_options_1]()
+
+	- **Spool Up Curve:** Defines how the fire rate will progress depending on how long the weapon is being fired (the downtime between shots(SDT) is calculated like so SDT = 1 / (SUC(ST) * FR), where SUC = Spool Up Curve, ST = time that the trigger is being held down, FR = Fire rate), for example in the prev image when you start to shoot the SDT = 1 / (0.1 * 20) and after 6 seconds the SDT = 1 / (1 * 20). **Note:** that fancy curve is achieved by changing the interpolation mode, this is done by right clicking the keys(i.e the white dots) and setting to auto, then you have to change the tangents. **Note2:** By Default the weapon doesnt spool up, so if you dont want the spool just set it to default.
+	- **Spool Reset Time:** the time it takes after releasing the trigger so that the ST(time that the trigger is being held down) is set to 0, this is makes it so that you can stop shooting for a small amount of time and start again without having to wait for the spool up, making it feel better to shoot
 
 ## UWeaponHolderComponent
 - **Setup:**

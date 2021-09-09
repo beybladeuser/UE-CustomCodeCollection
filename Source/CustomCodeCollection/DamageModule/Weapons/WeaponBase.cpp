@@ -66,10 +66,12 @@ void AWeaponBase::RefreshAmmoComponentInstance()
 void AWeaponBase::StartUsingWeapon()
 {
 	RefreshAmmoComponentInstance();
+	OnStartUsingWeapon();
 }
 void AWeaponBase::StopUsingWeapon()
 {
 	RefreshAmmoComponentInstance();
+	OnStopUsingWeapon();
 }
 
 void AWeaponBase::Reload()
@@ -77,6 +79,7 @@ void AWeaponBase::Reload()
 	if (AmmoComponent)
 	{
 		AmmoComponent->Reload();
+		OnStartReload();
 	}
 }
 
