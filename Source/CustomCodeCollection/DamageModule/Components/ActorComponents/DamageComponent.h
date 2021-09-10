@@ -76,4 +76,6 @@ protected:
 public:	
 	UFUNCTION(BlueprintCallable)
 	FDamageCompute ComputeFlatDamage(float Charge = 1.f);
+
+	void DamageActor(float ChargePercentage, AActor* OtherActor, const FHitResult& Hit, bool IsExplosion);
 };

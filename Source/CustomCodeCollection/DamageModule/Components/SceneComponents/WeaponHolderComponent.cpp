@@ -112,7 +112,10 @@ void UWeaponHolderComponent::SetDisplayOfActiveWeapon(bool bHideOtherWeapons, bo
 	{
 		for (AWeaponBase* HeldWeapon : GetAllHeldWeapons())
 		{
-			HeldWeapon->SetActorHiddenInGame(true);
+			if (HeldWeapon)
+			{
+				HeldWeapon->SetActorHiddenInGame(true);
+			}
 		}
 	}
 	AWeaponBase* ActiveWeapon = GetActiveWeapon();

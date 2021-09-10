@@ -3,7 +3,9 @@
 
 #include "DamageComponent.h"
 #include "GameFramework/DamageType.h"
+#include "Kismet/GameplayStatics.h"
 #include "../../Widgets/WorldPositionedWidget/DamageNumbersWidget.h"
+#include "../../Characters/DamageableCharacter.h"
 
 // Sets default values for this component's properties
 UDamageComponent::UDamageComponent()
@@ -59,4 +61,27 @@ FDamageCompute UDamageComponent::ComputeFlatDamage(float Charge)
 	int32 CritLvl;
 	float DamageAfterCrit = CurrentDamage * GetCritDamage(Charge, CritLvl);
 	return FDamageCompute{ DamageAfterCrit, CritLvl, DamageType, 0.f, DamageNumbersWidgetClass };
+}
+
+void UDamageComponent::DamageActor(float ChargePercentage, AActor* OtherActor, const FHitResult& Hit, bool IsExplosion)
+{
+	FDamageCompute FlatDamage = ComputeFlatDamage(ChargePercentage);
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
+		FString::Printf(TEXT("Damage: %f"), FlatDamage.Damage));
+	APawn* OwnerPawn = GetOwner()->GetOwner<APawn>();
+	if (OwnerPawn)
+	{
+		if (ADamageableCharacter* Enemy = Cast<ADamageableCharacter>(OtherActor))
+		{
+			Enemy->AddDamage(FlatDamage, OwnerPawn->GetController(), OwnerPawn, Hit, IsExplosion);
+		}
+		else
+		{
+			UGameplayStatics::ApplyDamage(OtherActor, FlatDamage.Damage, OwnerPawn->GetController(), OwnerPawn, FlatDamage.DamageType);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Cannot Add Damage Because %s 's owner is not a pawn"), *GetOwner()->GetName());
+	}
 }

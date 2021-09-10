@@ -68,7 +68,7 @@ void UHealthComponent::AddDamage(FDamageCompute Damage, AController* EventInstig
 
 	FVector Location;
 	APawn* OwnerPawn = GetOwner<APawn>();
-	if (!bIsExplosion)
+	if (!bIsExplosion && Hit.bBlockingHit)
 	{
 		Location = Hit.ImpactPoint;
 	}

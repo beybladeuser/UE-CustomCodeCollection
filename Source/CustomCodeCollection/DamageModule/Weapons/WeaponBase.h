@@ -19,7 +19,7 @@ enum class EWeaponType : uint8
 	RocketLaucher			UMETA(DisplayName = "RocketLaucher"),
 	OneHandedSingleSword	UMETA(DisplayName = "OneHandSingleSword"),
 	TwoHandedSingleSword	UMETA(DisplayName = "TwoHandedSingleSword"),
-	OneHandedDoubleSword	UMETA(DisplayName = "TwoHandedSingleSword"),
+	OneHandedDoubleSword	UMETA(DisplayName = "OneHandedDoubleSword"),
 	Spear					UMETA(DisplayName = "Spear"),
 	Shield					UMETA(DisplayName = "Shield")
 };

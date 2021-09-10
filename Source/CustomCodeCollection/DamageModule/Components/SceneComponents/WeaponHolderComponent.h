@@ -43,6 +43,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	AWeaponBase* GetActiveWeapon();
 
+	template<class T>
+	T* GetActiveWeapon();
+
 	UFUNCTION(BlueprintCallable)
 	void SwapActiveWeapon(int32 Index);
 	UFUNCTION(BlueprintCallable)
@@ -62,6 +65,11 @@ public:
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+	
 };
+
+template<class T>
+T* UWeaponHolderComponent::GetActiveWeapon()
+{
+	return Cast<T>(GetActiveWeapon());
+}

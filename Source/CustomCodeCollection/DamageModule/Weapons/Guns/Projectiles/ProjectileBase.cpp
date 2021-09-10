@@ -6,7 +6,6 @@
 #include "NiagaraFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../../Components/ActorComponents/DamageComponent.h"
-#include "../../../Characters/DamageableCharacter.h"
 
 // Sets default values
 AProjectileBase::AProjectileBase()
@@ -35,7 +34,7 @@ void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActo
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), HitSound, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 
 	//damage the actor
-	DamageActor(HitDamageComponent, OtherActor, Hit, false);
+	HitDamageComponent->DamageActor(ChargePercentage, OtherActor, Hit, false);
 
 	//setup the explosion
 	if (bCanExplode)
@@ -67,38 +66,19 @@ void AProjectileBase::Detonate()
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), HitSound, GetActorLocation(), FRotator());
 
 	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ADamageableCharacter::StaticClass(), FoundActors);
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AActor::StaticClass(), FoundActors);
 
 	for (AActor* Actor : FoundActors)
 	{
 		if (GetDistanceTo(Actor) <= ExplosionRadious)
 		{
 			FHitResult Hit;
-			DamageActor(ExplosionDamageComponent, Actor, Hit, true);
+			ExplosionDamageComponent->DamageActor(ChargePercentage, Actor, Hit, true);
 		}
 		
 	}
 
 	DestroySelf();
-}
-
-void AProjectileBase::DamageActor(UDamageComponent* DamageComponent, AActor* OtherActor, const FHitResult& Hit, bool IsExplosion)
-{
-	FDamageCompute Damage = DamageComponent->ComputeFlatDamage(ChargePercentage);
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
-		FString::Printf(TEXT("Damage: %f"), Damage.Damage));
-	APawn* OwnerPawn = GetOwner<APawn>();
-	if (OwnerPawn)
-	{
-		if (ADamageableCharacter* Enemy = Cast<ADamageableCharacter>(OtherActor))
-		{
-			Enemy->AddDamage(Damage, OwnerPawn->GetController(), OwnerPawn, Hit, IsExplosion);
-		}
-		else
-		{
-			UGameplayStatics::ApplyDamage(OtherActor, Damage.Damage, OwnerPawn->GetController(), OwnerPawn, Damage.DamageType);
-		}
-	}
 }
 
 void AProjectileBase::DestroySelf()

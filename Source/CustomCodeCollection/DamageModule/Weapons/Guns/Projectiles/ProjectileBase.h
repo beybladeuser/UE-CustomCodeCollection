@@ -55,8 +55,6 @@ protected:
 	void StartDetonation();
 	virtual void Detonate();
 
-	void DamageActor(UDamageComponent* DamageComponent, AActor* OtherActor, const FHitResult& Hit, bool IsExplosion);
-
 	void DestroySelf();
 public:
 	virtual void NotifyIgnoredActor(AActor* ActorToIgnore);
