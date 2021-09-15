@@ -9,8 +9,11 @@ void UMeleeDamagingPeriod::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSe
 {
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration);
 
+	AActor* MeshCompOwnerActor = MeshComp->GetOwner();
+	if (!MeshCompOwnerActor) { return; }
+
 	TArray<UWeaponHolderComponent*> WeaponHolders;
-	MeshComp->GetOwner()->GetComponents(WeaponHolders, true);
+	MeshCompOwnerActor->GetComponents(WeaponHolders, true);
 
 	AMeleeBase* MeleeWeapon = nullptr;
 	if (WeaponHolders.Num() && WeaponHolders[0])
@@ -37,8 +40,11 @@ void UMeleeDamagingPeriod::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequ
 {
 	Super::NotifyEnd(MeshComp, Animation);
 
+	AActor* MeshCompOwnerActor = MeshComp->GetOwner();
+	if (!MeshCompOwnerActor) { return; }
+
 	TArray<UWeaponHolderComponent*> WeaponHolders;
-	MeshComp->GetOwner()->GetComponents(WeaponHolders, true);
+	MeshCompOwnerActor->GetComponents(WeaponHolders, true);
 
 	AMeleeBase* MeleeWeapon = nullptr;
 	if (WeaponHolders.Num() && WeaponHolders[0])

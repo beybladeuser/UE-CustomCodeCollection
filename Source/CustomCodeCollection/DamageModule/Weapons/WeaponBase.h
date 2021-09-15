@@ -69,11 +69,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void Reload();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 	FORCEINLINE EWeaponType GetWeaponType() { return WeaponType; }
 
 	AController* GetOwnerController() const;
 
+	UFUNCTION(BlueprintPure)
 	UAmmoComponent* GetAmmoComponent();
 	//Usefull to make a weapon that has multiple AWeaponBase that share the same ammo count
 	void SetAmmoComponentInstance(UAmmoComponent* AmmoComponentInst);

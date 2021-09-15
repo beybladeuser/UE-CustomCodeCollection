@@ -63,4 +63,6 @@ protected:
 	virtual float GeFireRate();
 
 	virtual void NotifyChargePercentToProjectileDamageComps(AProjectileBase* ProjectileToNotify);
+
+	void NotifyTraceToProjectile(AProjectileBase* Projectile, bool bWasTraceSuccessful, const FHitResult& Hit);
 };

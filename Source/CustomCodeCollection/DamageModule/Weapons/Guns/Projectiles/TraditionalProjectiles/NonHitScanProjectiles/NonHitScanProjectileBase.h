@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../ProjectileBase.h"
+#include "../TraditionalProjectileBase.h"
 #include "NonHitScanProjectileBase.generated.h"
 
 class UProjectileMovementComponent;
@@ -13,7 +13,7 @@ class URotatingMovementComponent;
  * 
  */
 UCLASS()
-class CUSTOMCODECOLLECTION_API ANonHitScanProjectileBase : public AProjectileBase
+class CUSTOMCODECOLLECTION_API ANonHitScanProjectileBase : public ATraditionalProjectileBase
 {
 	GENERATED_BODY()
 	

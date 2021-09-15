@@ -130,7 +130,7 @@ AProjectileBase* AGunBase::SpawnProjectile()
 			Collision->IgnoreActorWhenMoving(Projectile, true);
 		}
 		NotifyChargePercentToProjectileDamageComps(Projectile);
-		Projectile->NotifyTraceResult(bWasTraceSuccessful, Hit);
+		NotifyTraceToProjectile(Projectile, bWasTraceSuccessful, Hit);
 		
 		//Shot FX
 		//SpawnSystemAttached(UNiagaraSystem * SystemTemplate, USceneComponent * AttachToComponent, FName AttachPointName, FVector Location, FRotator Rotation, EAttachLocation::Type LocationType, bool bAutoDestroy
@@ -168,4 +168,30 @@ float AGunBase::GeFireRate()
 void AGunBase::NotifyChargePercentToProjectileDamageComps(AProjectileBase* ProjectileToNotify)
 {
 
+}
+
+void AGunBase::NotifyTraceToProjectile(AProjectileBase* Projectile, bool bWasTraceSuccessful, const FHitResult& Hit)
+{
+	//Projectile Spawn -- trace notify
+	FVector TraceStart;
+	FVector TraceDirection;
+
+	if (!bWasTraceSuccessful)
+	{
+		AController* OwnerController = GetOwnerController();
+		if (OwnerController && !bUseProjectileSpawnPointRotation)
+		{
+			FRotator OwnerViewPointRotation;
+
+			OwnerController->GetPlayerViewPoint(OUT TraceStart, OUT OwnerViewPointRotation);
+
+			TraceDirection = OwnerViewPointRotation.Vector();
+		}
+		else
+		{
+			TraceStart = ProjectileSpawnPoint->GetComponentLocation();
+			TraceDirection = ProjectileSpawnPoint->GetComponentRotation().Vector();
+		}
+	}
+	Projectile->NotifyTraceResult(bWasTraceSuccessful, Hit, TraceStart, TraceDirection, MaxTraceRange);
 }

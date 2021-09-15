@@ -7,7 +7,19 @@
 #include "WeaponHolderComponent.generated.h"
 
 class AWeaponBase;
+class UWeaponInfoWidgetBase;
 
+USTRUCT(BlueprintType)
+struct FHeldWeaponsSpawnInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeldWeaponsSpawnInfo")
+	TSubclassOf<AWeaponBase> WeaponClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HeldWeaponsSpawnInfo")
+	FTransform Offset;
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CUSTOMCODECOLLECTION_API UWeaponHolderComponent : public USceneComponent
@@ -19,9 +31,8 @@ public:
 	UWeaponHolderComponent();
 
 protected:
-	//Pair (class, offset)
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapons")
-	TMap<TSubclassOf<AWeaponBase>, FTransform> HeldWeaponsClasses;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapons")
+	TArray<FHeldWeaponsSpawnInfo> HeldWeaponsClasses;
 
 	TArray<AWeaponBase*> HeldWeapons;
 
@@ -34,17 +45,24 @@ protected:
 	bool bCurrentActiveWeaponIsAgregate = false;
 	bool bCanSwapWeapon = true;
 
-	TArray<AWeaponBase*> GetAllHeldWeapons();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapons|UI")
+	TSubclassOf<UWeaponInfoWidgetBase> WeaponInfoWidgetClass;
+	UWeaponInfoWidgetBase* WeaponInfoWidget;
+
+	TArray<AWeaponBase*> GetAllHeldWeapons() const;
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 public:
 	UFUNCTION(BlueprintCallable)
-	AWeaponBase* GetActiveWeapon();
+	void SetWeaponInfoWidget(UWeaponInfoWidgetBase* NewWeaponInfoWidget);
+
+	UFUNCTION(BlueprintPure)
+	AWeaponBase* GetActiveWeapon() const;
 
 	template<class T>
-	T* GetActiveWeapon();
+	T* GetActiveWeapon() const;
 
 	UFUNCTION(BlueprintCallable)
 	void SwapActiveWeapon(int32 Index);
@@ -69,7 +87,7 @@ public:
 };
 
 template<class T>
-T* UWeaponHolderComponent::GetActiveWeapon()
+T* UWeaponHolderComponent::GetActiveWeapon() const
 {
 	return Cast<T>(GetActiveWeapon());
 }

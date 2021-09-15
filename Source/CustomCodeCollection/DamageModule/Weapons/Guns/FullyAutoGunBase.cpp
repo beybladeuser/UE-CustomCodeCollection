@@ -52,7 +52,8 @@ AFullyAutoGunBase::AFullyAutoGunBase()
 
 void AFullyAutoGunBase::Tick(float DeltaTime)
 {
-	if (bIsFiring)
+	bool bIsReloading = AmmoComponent && AmmoComponent->IsReloading();
+	if (bIsFiring && !bIsReloading)
 	{
 		ElapsedTime = FMath::Clamp(ElapsedTime + DeltaTime, 0.f, SpoolUpCurve.EditorCurveData.GetLastKey().Time);
 	}

@@ -3,9 +3,9 @@
 
 #include "HitScanProjectileBase.h"
 
-void AHitScanProjectileBase::NotifyTraceResult(bool bWasTraceSuccessful, const FHitResult& Hit)
+void AHitScanProjectileBase::NotifyTraceResult(bool bWasTraceSuccessful, const FHitResult& Hit, const FVector& TraceStart, const FVector& TraceDirection, float TraceRange)
 {
-	Super::NotifyTraceResult(bWasTraceSuccessful, Hit);
+	Super::NotifyTraceResult(bWasTraceSuccessful, Hit, TraceStart, TraceDirection, TraceRange);
 
 	if (bWasTraceSuccessful)
 	{

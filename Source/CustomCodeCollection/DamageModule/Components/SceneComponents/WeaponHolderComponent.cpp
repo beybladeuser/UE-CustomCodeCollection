@@ -4,6 +4,7 @@
 #include "WeaponHolderComponent.h"
 #include "../../Weapons/WeaponBase.h"
 #include "../../Weapons/WeaponAgregate/WeaponAgregateBase.h"
+#include "../../Widgets/DamageModuleInfo/WeaponInfoWidgetBase.h"
 
 // Sets default values for this component's properties
 UWeaponHolderComponent::UWeaponHolderComponent()
@@ -15,7 +16,7 @@ UWeaponHolderComponent::UWeaponHolderComponent()
 	// ...
 }
 
-TArray<AWeaponBase*> UWeaponHolderComponent::GetAllHeldWeapons()
+TArray<AWeaponBase*> UWeaponHolderComponent::GetAllHeldWeapons() const
 {
 	if (!HeldWeapons.Num())
 	{
@@ -31,14 +32,14 @@ void UWeaponHolderComponent::BeginPlay()
 
 	int32 i = 0;
 	HeldWeapons.Init(nullptr, HeldWeaponsClasses.Num());
-	for (TPair<TSubclassOf<AWeaponBase>, FTransform> WeaponClass : HeldWeaponsClasses)
+	for (FHeldWeaponsSpawnInfo WeaponClass : HeldWeaponsClasses)
 	{
-		HeldWeapons[i] = GetWorld()->SpawnActor<AWeaponBase>(WeaponClass.Key);
+		HeldWeapons[i] = GetWorld()->SpawnActor<AWeaponBase>(WeaponClass.WeaponClass);
 		if (HeldWeapons[i])
 		{
 			HeldWeapons[i]->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
 			HeldWeapons[i]->SetOwner(GetOwner());
-			HeldWeapons[i]->SetActorRelativeTransform(WeaponClass.Value);
+			HeldWeapons[i]->SetActorRelativeTransform(WeaponClass.Offset);
 			HeldWeapons[i]->SetActorHiddenInGame(true);
 		}
 		i++;
@@ -46,9 +47,25 @@ void UWeaponHolderComponent::BeginPlay()
 	SwapActiveWeapon(ActiveWeaponIndex);
 	SetDisplayOfActiveWeapon(false, false);
 	
+	if (WeaponInfoWidgetClass)
+	{
+		WeaponInfoWidget = Cast<UWeaponInfoWidgetBase>(CreateWidget(GetWorld(), WeaponInfoWidgetClass));
+	}
+	if (WeaponInfoWidget)
+	{
+		WeaponInfoWidget->AddToViewport();
+		WeaponInfoWidget->InitWeapons(ActiveWeaponIndex, GetAllHeldWeapons());
+		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
+			FString::Printf(TEXT("WeaponInfoWidget")));
+	}
 }
 
-AWeaponBase* UWeaponHolderComponent::GetActiveWeapon()
+void UWeaponHolderComponent::SetWeaponInfoWidget(UWeaponInfoWidgetBase* NewWeaponInfoWidget)
+{
+	WeaponInfoWidget = NewWeaponInfoWidget;
+}
+
+AWeaponBase* UWeaponHolderComponent::GetActiveWeapon() const
 {
 	TArray<AWeaponBase*> AllHeldWeapons = GetAllHeldWeapons();
 
@@ -79,6 +96,11 @@ void UWeaponHolderComponent::SwapActiveWeapon(int32 Index)
 	else
 	{
 		bCurrentActiveWeaponIsAgregate = false;
+	}
+
+	if (WeaponInfoWidget)
+	{
+		WeaponInfoWidget->NotifyWeaponSwap(ActiveWeaponIndex);
 	}
 }
 

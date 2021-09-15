@@ -78,7 +78,10 @@ FVector AWorldPositionedWidgetManager::UpdateManagedWidgetWorldLocationByVelocit
 
 FVector2D AWorldPositionedWidgetManager::GetManagedWidgetScreenLocation(FVector2D ProjectedScreenLocation, float DeltaTime)
 {
-	FVector2D Result = ProjectedScreenLocation - ManagedWidgetParams.ScreenOffSet;
+	FVector2D ManagedWidgetScreenOffSet = ManagedWidget->GetDesiredSize();
+	ManagedWidgetScreenOffSet.X *= ManagedWidgetParams.ScreenOffSetMultiplier.X;
+	ManagedWidgetScreenOffSet.Y *= ManagedWidgetParams.ScreenOffSetMultiplier.Y;
+	FVector2D Result = ProjectedScreenLocation - ManagedWidgetScreenOffSet;
 	if (ManagedWidgetParams.bUseMovementParams && ManagedWidgetParams.bUseScreenPosDelta)
 	{
 		if (ManagedWidgetParams.bUseConstantInterpSpeed)

@@ -14,9 +14,6 @@ class CUSTOMCODECOLLECTION_API ANonChargeMeleeBase : public AMeleeBase
 {
 	GENERATED_BODY()
 	
-protected:
-	virtual void HandleOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
-
 public:
 	virtual void StartUsingWeapon() override;
 };

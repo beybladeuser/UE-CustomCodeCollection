@@ -12,9 +12,10 @@ USTRUCT(BlueprintType)
 struct FWorldPositionedWidgetMovementParams
 {
 	GENERATED_BODY()
-
+	
+	//the default value is 1/3.79994 and this will center the widget at the placed location; This value is multiplied with the respective axis of the dimention of this widget
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "World Placement")
-	FVector2D ScreenOffSet = FVector2D(64, 16);
+	FVector2D ScreenOffSetMultiplier = FVector2D(1.f/3.79994f, 1.f/3.79994f);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	bool bUseMovementParams = false;
