@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../Interfaces/DamageableObjectInterface.h"
 #include "DamageableCharacter.generated.h"
 
 class UHealthComponent;
 struct FDamageCompute;
-class ADamageNumberBase;
 
 UCLASS()
-class CUSTOMCODECOLLECTION_API ADamageableCharacter : public ACharacter
+class CUSTOMCODECOLLECTION_API ADamageableCharacter : public ACharacter, public IDamageableObjectInterface
 {
 	GENERATED_BODY()
 
@@ -27,7 +27,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	virtual void AddDamage(FDamageCompute Damage, AController* EventInstigator, AActor* DamageCauser, const FHitResult& Hit, bool bIsExplosion);
+	void AddDamage_Implementation(FDamageCompute Damage, AController* EventInstigator, AActor* DamageCauser, const FHitResult& Hit, bool bIsExplosion) override;
+	void NotifyDeath_Implementation() override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

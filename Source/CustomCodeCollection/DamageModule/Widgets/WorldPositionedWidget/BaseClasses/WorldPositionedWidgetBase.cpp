@@ -21,7 +21,11 @@ void UWorldPositionedWidgetBase::PlaceAtWorldLocation(APlayerController* _Owning
 			AWorldPositionedWidgetManager::StaticClass(),
 			Transform
 		);
-	WidgetManager->StartManaging(this, _WorldLocation, DefaultParams);
+	if (WidgetManager)
+	{
+		WidgetManager->StartManaging(this, _WorldLocation, DefaultParams);
+	}
+	
 }
 
 FWorldPositionedWidgetMovementParams UWorldPositionedWidgetBase::GetMovementParams()

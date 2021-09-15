@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "DamageComponent.h"
 #include "HealthComponent.generated.h"
 
 class UDamageType;
@@ -42,9 +43,10 @@ protected:
 	void HandleStatus();
 
 	//dont forget that you can override the K2_DestroyActor function(in c++ only :( ) of the Actor class for specific dying behaviour
-	void KillOwner();
+	void NotifyDeath();
 
-public:	
+public:
+	UFUNCTION(BlueprintCallable)
 	void AddDamage(FDamageCompute Damage, AController* EventInstigator, AActor* DamageCauser, const FHitResult& Hit, bool bIsExplosion);
 
 		

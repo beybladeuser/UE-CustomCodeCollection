@@ -21,9 +21,14 @@ void ADamageableCharacter::BeginPlay()
 	
 }
 
-void ADamageableCharacter::AddDamage(FDamageCompute Damage, AController* EventInstigator, AActor* DamageCauser, const FHitResult& Hit, bool bIsExplosion)
+void ADamageableCharacter::AddDamage_Implementation(FDamageCompute Damage, AController* EventInstigator, AActor* DamageCauser, const FHitResult& Hit, bool bIsExplosion)
 {
 	Health->AddDamage(Damage, EventInstigator, DamageCauser, Hit, bIsExplosion);
+}
+
+void ADamageableCharacter::NotifyDeath_Implementation()
+{
+	K2_DestroyActor();
 }
 
 // Called every frame

@@ -2,9 +2,9 @@
 
 
 #include "HealthComponent.h"
-#include "DamageComponent.h"
 #include "GameFramework/DamageType.h"
 #include "../../Widgets/WorldPositionedWidget/DamageNumbersWidget.h"
+#include "../../Interfaces/DamageableObjectInterface.h"
 
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
@@ -55,9 +55,17 @@ void UHealthComponent::HandleStatus()
 {
 }
 
-void UHealthComponent::KillOwner()
+void UHealthComponent::NotifyDeath()
 {
-	GetOwner()->K2_DestroyActor();
+	if (GetOwner()->GetClass()->ImplementsInterface(UDamageableObjectInterface::StaticClass()))
+	{
+		IDamageableObjectInterface::Execute_NotifyDeath(GetOwner());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UHealthComponent of actor %s cannot notify the actor because it doesnt implement the IDamageableObjectInterface"), *GetOwner()->GetName());
+	}
+	//GetOwner()->K2_DestroyActor();
 }
 
 void UHealthComponent::AddDamage(FDamageCompute Damage, AController* EventInstigator, AActor* DamageCauser, const FHitResult& Hit, bool bIsExplosion)
@@ -67,14 +75,13 @@ void UHealthComponent::AddDamage(FDamageCompute Damage, AController* EventInstig
 	ComputeDamageAfterStatus(Damage);
 
 	FVector Location;
-	APawn* OwnerPawn = GetOwner<APawn>();
 	if (!bIsExplosion && Hit.bBlockingHit)
 	{
 		Location = Hit.ImpactPoint;
 	}
-	else
+	else if (AActor* OwnerActor = GetOwner())
 	{
-		Location = OwnerPawn->GetActorLocation();
+		Location = OwnerActor->GetActorLocation();
 	}
 
 	UDamageNumbersWidget* DamageNumbers = nullptr;
@@ -92,7 +99,7 @@ void UHealthComponent::AddDamage(FDamageCompute Damage, AController* EventInstig
 	Health = FMath::Clamp(Health - Damage.Damage, 0.0f, MaxHealth);
 	if (Health == 0.0f)
 	{
-		KillOwner();
+		NotifyDeath();
 	}
 }
 

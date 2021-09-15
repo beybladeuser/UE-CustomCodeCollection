@@ -5,7 +5,7 @@
 #include "GameFramework/DamageType.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../Widgets/WorldPositionedWidget/DamageNumbersWidget.h"
-#include "../../Characters/DamageableCharacter.h"
+#include "../../Interfaces/DamageableObjectInterface.h"
 
 // Sets default values for this component's properties
 UDamageComponent::UDamageComponent()
@@ -71,9 +71,9 @@ void UDamageComponent::DamageActor(float ChargePercentage, AActor* OtherActor, c
 	APawn* OwnerPawn = GetOwner()->GetOwner<APawn>();
 	if (OwnerPawn)
 	{
-		if (ADamageableCharacter* Enemy = Cast<ADamageableCharacter>(OtherActor))
+		if (OtherActor->GetClass()->ImplementsInterface(UDamageableObjectInterface::StaticClass()))
 		{
-			Enemy->AddDamage(FlatDamage, OwnerPawn->GetController(), OwnerPawn, Hit, IsExplosion);
+			IDamageableObjectInterface::Execute_AddDamage(OtherActor, FlatDamage, OwnerPawn->GetController(), OwnerPawn, Hit, IsExplosion);
 		}
 		else
 		{

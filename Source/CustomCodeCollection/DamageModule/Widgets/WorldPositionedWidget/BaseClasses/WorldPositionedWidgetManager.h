@@ -56,6 +56,8 @@ class CUSTOMCODECOLLECTION_API AWorldPositionedWidgetManager : public AActor
 private:
 	friend class UWorldPositionedWidgetBase;
 
+	bool HasTickedOnce = false;
+
 	void DisplayToPlayer(float DeltaTime);
 	//true if is being displayed
 	bool UpdateViewportStatus(bool bSuccessfulProjection);

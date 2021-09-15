@@ -6,10 +6,14 @@
 
 void AWorldPositionedWidgetManager::DisplayToPlayer(float DeltaTime)
 {
+	if (!ManagedWidget) 
+	{
+		UE_LOG(LogTemp, Error, TEXT("AWorldPositionedWidgetManager named %s lost its reference to its ManagedWidget, destroying this actor"));
+		GetWorld()->DestroyActor(this);
+		return;
+	}
 	if (APlayerController* OwningPlayer = ManagedWidget->GetOwningPlayer())
 	{
-
-
 		FVector2D OutProjectedScreenLocation;
 		bool bSuccessfulProjection =
 			OwningPlayer->ProjectWorldLocationToScreen
@@ -38,7 +42,7 @@ bool AWorldPositionedWidgetManager::UpdateViewportStatus(bool bSuccessfulProject
 		//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red,
 		//	FString::Printf(TEXT("!!!!!!!bSuccessfulProjection")));
 		DisplayStatus = false;
-		if (bManagedWidgetIsBeingDisplayed)
+		if (ManagedWidget && bManagedWidgetIsBeingDisplayed)
 		{
 			ManagedWidget->RemoveFromViewport();
 			bManagedWidgetIsBeingDisplayed = false;
@@ -49,7 +53,7 @@ bool AWorldPositionedWidgetManager::UpdateViewportStatus(bool bSuccessfulProject
 		//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green,
 		//	FString::Printf(TEXT("bSuccessfulProjection")));
 		DisplayStatus = true;
-		if (!bManagedWidgetIsBeingDisplayed)
+		if (ManagedWidget && !bManagedWidgetIsBeingDisplayed)
 		{
 			ManagedWidget->AddToViewport();
 			bManagedWidgetIsBeingDisplayed = true;
@@ -163,6 +167,7 @@ void AWorldPositionedWidgetManager::StartManaging(UWorldPositionedWidgetBase* _M
 	bManagedWidgetIsBeingDisplayed = false;
 	ProcessParamaters(_ManagedWidgetParams);
 
+	ManagedWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
 // Called every frame
@@ -171,5 +176,11 @@ void AWorldPositionedWidgetManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	DisplayToPlayer(DeltaTime);
+
+	if (!HasTickedOnce && ManagedWidget && ManagedWidget->GetDesiredSize().X != 0 && ManagedWidget->GetDesiredSize().Y != 0)
+	{
+		HasTickedOnce = true;
+		ManagedWidget->SetVisibility(ESlateVisibility::Visible);
+	}
 }
 
