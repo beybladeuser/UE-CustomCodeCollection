@@ -19,11 +19,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options", meta = (ClampMin = "0"))
 	int32 AmmoConsumedPerShot = 1;
 
+	//If ReloadTime < 0 then this component will never end reloading, this is meant so that you are able to call EndReload() on a EndAnimation function in BP
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options", meta = (ClampMin = "-1"))
+	float ReloadTime = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options")
 	bool bUseReloadableClip = true;
-	//If ReloadTime < 0 then this component will never end reloading, this is meant so that you are able to call EndReload() on a EndAnimation function in BP
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options", meta = (ClampMin = "-1", EditCondition = "bUseReloadableClip"))
-	float ReloadTime = 1.f;
 	//Current clip ammo and inicial clip ammo count
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options", meta = (ClampMin = "0", EditCondition = "bUseReloadableClip"))
 	int32 ClipAmmo = 31;
@@ -31,6 +31,11 @@ protected:
 	int32 MaxClipAmmo = 30;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options", meta = (ClampMin = "0", EditCondition = "bUseReloadableClip"))
 	int32 MaxChamberAmmo = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options", meta = (EditCondition = "!bUseReloadableClip"))
+	bool bReloadAmmoReserveOverTime = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options", meta = (EditCondition = "!bUseReloadableClip && bReloadAmmoReserveOverTime"))
+	float StartOverTimeReloadDelay = 2.f;
+	FTimerHandle OverTimeReloadTimerTimerHandle;
 
 	//Current ammo reserve and inicial ammo reserve count
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Options", meta = (ClampMin = "0"))
@@ -50,8 +55,11 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	void StartOvertimeReload();
 
 public:	
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 	//ChargePercentage used for charge weapons that the amount of charge affects the ammo consumed
 	void ConsumeAmmo(float ChargePercentage = 1.f);
 

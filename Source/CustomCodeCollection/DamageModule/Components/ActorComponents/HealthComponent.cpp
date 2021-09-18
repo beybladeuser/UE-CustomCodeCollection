@@ -68,6 +68,16 @@ void UHealthComponent::NotifyDeath()
 	//GetOwner()->K2_DestroyActor();
 }
 
+void UHealthComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (HealthRegenRate && Health <= MaxHealth)
+	{
+		Health = FMath::Clamp(Health + HealthRegenRate * DeltaTime, 0.0f, MaxHealth);
+	}
+}
+
 void UHealthComponent::AddDamage(FDamageCompute Damage, AController* EventInstigator, AActor* DamageCauser, const FHitResult& Hit, bool bIsExplosion)
 {
 	ComputeDamageAfterDefence(Damage);
@@ -103,8 +113,8 @@ void UHealthComponent::AddDamage(FDamageCompute Damage, AController* EventInstig
 	}
 }
 
-
-
-
-
+void UHealthComponent::HealByAmmount(float HealAmmount)
+{
+	Health = FMath::Clamp(Health + HealAmmount, 0.0f, MaxHealth);
+}
 
